@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>galleria</name>
+	<version>1.0.0</version>
+	<requirements>
+		<minimum_version>3.0.0</minimum_version>
+	</requirements>
+	<description>
+		<![CDATA[
+			The all-in-one image gallery.
+		]]>
+	</description>
+	<authors>
+		<author>
+			<name><![CDATA[John Poelman]]></name>
+			<url><![CDATA[http://www.bloobz.be]]></url>
+		</author>
+	</authors>
+	<events>
+		<event application="backend" name="after_saved_settings"><![CDATA[Triggered when the settings are saved.]]></event>
+	</events>
+</module>

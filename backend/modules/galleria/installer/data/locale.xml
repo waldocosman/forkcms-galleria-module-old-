@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale>
+	<backend>
+		<galleria>
+			<item type="message" name="HelpMeta">
+				<translation language="nl"><![CDATA[toon de meta informatie van deze foto in de RSS feed (album)]]></translation>
+				<translation language="en"><![CDATA[show this picture's meta information in the RSS feed (album)]]></translation>
+			</item>
+			<item type="message" name="AlbumDeleted">
+				<translation language="nl"><![CDATA[het album is verwijderd]]></translation>
+				<translation language="en"><![CDATA[the album is deleted]]></translation>
+			</item>
+			<item type="message" name="EditedAlbum">
+				<translation language="nl"><![CDATA[het album is aangepast]]></translation>
+				<translation language="en"><![CDATA[the album is edited]]></translation>
+			</item>
+			<item type="message" name="ConfirmDeleteCategory">
+				<translation language="nl"><![CDATA[bent u zeker dat u de categorie "%1$s" wil verwijderen?]]></translation>
+				<translation language="en"><![CDATA[are you sure you want to delete the category "%1$s"?]]></translation>
+			</item>
+			<item type="message" name="ConfirmDeleteAlbum">
+				<translation language="nl"><![CDATA[bent u zeker dat u het album "%1$s" wil verwijderen?]]></translation>
+				<translation language="en"><![CDATA[are you sure you want to delete the album "%1$s"?]]></translation>
+			</item>
+			<item type="message" name="NoCategories">
+				<translation language="nl"><![CDATA[er zijn nog geen categoriën]]></translation>
+				<translation language="en"><![CDATA[there aren't any categories]]></translation>
+			</item>
+			<item type="message" name="NoAlbums">
+				<translation language="nl"><![CDATA[er zijn nog geen albums]]></translation>
+				<translation language="en"><![CDATA[there aren't any albums]]></translation>
+			</item>
+			<item type="message" name="HelpSpamFilter">
+				<translation language="nl"><![CDATA[schakel de ingebouwde spam-filter (Akismet) in om spam-berichten in reacties te vermijden]]></translation>
+				<translation language="en"><![CDATA[enable the built-in spam-filter (Akismet) to avoid unwanted spam in comments]]></translation>
+			</item>
+			<item type="message" name="FollowAllCommentsInRSS">
+				<translation language="nl"><![CDATA[Volg alle reacties in een RSS feed: <a href="%1$s">%1$s</a>]]></translation>
+				<translation language="en"><![CDATA[Foolow all comments through RSS: <a href="%1$s">%1$s</a>]]></translation>
+			</item>
+			<item type="message" name="HelpPingServices">
+				<translation language="nl"><![CDATA[ping blogdiensten]]></translation>
+				<translation language="en"><![CDATA[ping blogservices]]></translation>
+			</item>
+			<item type="message" name="NumberOfComments">
+				<translation language="nl"><![CDATA[aantal commentaren in de recente commentaren widget]]></translation>
+				<translation language="en"><![CDATA[number of comments in the recent comments widget]]></translation>
+			</item>
+			<item type="message" name="NotifyByEmailOnNewComment">
+				<translation language="nl"><![CDATA[verwittig via email als er een nieuwe reactie is]]></translation>
+				<translation language="en"><![CDATA[notify through email when there's a new comment]]></translation>
+			</item>
+			<item type="message" name="NotifyByEmailOnNewCommentToModerate">
+				<translation language="nl"><![CDATA[verwittig via email als er een nieuwe reactie te modereren is]]></translation>
+				<translation language="en"><![CDATA[notify through email when there's a new comment for moderation]]></translation>
+			</item>
+			<item type="message" name="ImageMaxWidth">
+				<translation language="nl"><![CDATA[maximale breedte van de afbeelding (detail)]]></translation>
+				<translation language="en"><![CDATA[maximum width of the image (detail)]]></translation>
+			</item>
+			<item type="message" name="NoImages">
+				<translation language="nl"><![CDATA[er zijn nog geen afbeeldingen geselecteerd]]></translation>
+				<translation language="en"><![CDATA[there are no images selected for upload]]></translation>
+			</item>
+			<item type="label" name="Album">
+				<translation language="nl"><![CDATA[album]]></translation>
+				<translation language="en"><![CDATA[album]]></translation>
+			</item>
+			<item type="label" name="EditCategory">
+				<translation language="nl"><![CDATA[categorie bewerken]]></translation>
+				<translation language="en"><![CDATA[edit category]]></translation>
+			</item>
+			<item type="label" name="Title">
+				<translation language="nl"><![CDATA[titel]]></translation>
+				<translation language="en"><![CDATA[title]]></translation>
+			</item>
+			<item type="label" name="AddAlbum">
+				<translation language="nl"><![CDATA[album toevoegen]]></translation>
+				<translation language="en"><![CDATA[add album]]></translation>
+			</item>
+			<item type="label" name="AddImages">
+				<translation language="nl"><![CDATA[foto's toevoegen]]></translation>
+				<translation language="en"><![CDATA[add images]]></translation>
+			</item>
+			<item type="label" name="EditAlbum">
+				<translation language="nl"><![CDATA[album bewerken]]></translation>
+				<translation language="en"><![CDATA[edit album]]></translation>
+			</item>
+		</galleria>
+		<core>
+			<item type="label" name="Galleria">
+				<translation language="nl"><![CDATA[galleria]]></translation>
+				<translation language="en"><![CDATA[galleria]]></translation>
+			</item>
+			<item type="label" name="RecentComments">
+				<translation language="nl"><![CDATA[recente reactie's]]></translation>
+				<translation language="en"><![CDATA[recent comments]]></translation>
+			</item>
+			<item type="label" name="Categories">
+				<translation language="nl"><![CDATA[categoriën]]></translation>
+				<translation language="en"><![CDATA[categories]]></translation>
+			</item>
+			<item type="label" name="Albums">
+				<translation language="nl"><![CDATA[albums]]></translation>
+				<translation language="en"><![CDATA[albums]]></translation>
+			</item>
+		</core>
+	</backend>
+	<frontend>
+		<core>
+		</core>
+	</frontend>
+</locale>
