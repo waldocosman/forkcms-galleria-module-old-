@@ -13,6 +13,7 @@ CREATE TABLE `galleria_categories` (
 CREATE TABLE `galleria_albums` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
+  `extra_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `meta_id` int(11) NOT NULL,
   `language` varchar(5) NOT NULL,

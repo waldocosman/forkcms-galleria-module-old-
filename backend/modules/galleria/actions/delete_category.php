@@ -39,17 +39,8 @@ class BackendGalleriaDeleteCategory extends BackendBaseActionDelete
 
 				// delete category
 				BackendGalleriaModel::deleteCategoryById($this->id);
-			
-				// delete meta
-				BackendGalleriaModel::deleteMeta($this->record['meta_id']);
-			
-				// perform extra stuff
-				BackendSearchModel::removeIndex($this->getModule(), $this->id);
-				BackendModel::triggerEvent($this->getModule(), 'after_delete', array('id' => $this->id));
 
-				$this->redirect(
-					BackendModel::createURLForAction('categories') . '&report=category-deleted&var=' . urlencode($this->record['title'])
-				);
+				$this->redirect(BackendModel::createURLForAction('categories') . '&report=category-deleted&var=' . urlencode($this->record['title']));
 			}
 		}
 		else $this->redirect(BackendModel::createURLForAction('categories') . '&error=non-existing');

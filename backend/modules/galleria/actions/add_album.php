@@ -58,6 +58,7 @@ class BackendGalleriaAddAlbum extends BackendBaseActionAdd
 		$this->frm->addText('title');
 		$this->frm->getField('title')->setAttribute('class', 'title ' . $this->frm->getField('title')->getAttribute('class'));
 		$this->frm->addEditor('description');
+		$this->frm->addText('tags', null, null, 'inputText tagBox', 'inputTextError tagBox');
 		$this->frm->addRadiobutton('hidden', $rbtHiddenValues, 'N');
 		$this->frm->addDropdown('category', BackendGalleriaModel::getCategoriesForDropdown(),$this->id);
 		
@@ -114,57 +115,16 @@ class BackendGalleriaAddAlbum extends BackendBaseActionAdd
 				$album['description'] = (string) $this->frm->getField('description')->getValue();
 				
 				// first, insert the album
-				$album_id = BackendGalleriaModel::insertAlbum($album);
+				BackendGalleriaModel::insertAlbum($album);
 				
-				// save index to the search module
-				BackendSearchModel::saveIndex(
-				$this->getModule(),
-				$album['id'],
-				array('title' => $album['title'], 'text' => $item['title']));
-
+				// save the tags
+				BackendTagsModel::saveTags($album['id'], $this->frm->getField('tags')->getValue(), $this->URL->getModule());
+				
 				// trigger event
 				BackendModel::triggerEvent($this->getModule(), 'after_add_album', array('item' => $album));
-
-				if($album_id)
-				{
-					// then build the widget array...
-					$widget['module'] = (string) $this->getModule();
-					$widget['type'] = (string) 'widget';
-					$widget['label'] = (string) BackendGalleriaModel::createWidgetLabel($album['title']);
-					$widget['action'] = (string) 'widget';
-					$widget['hidden'] = (string) 'N';
-					$widget['data'] = (string) serialize(array('id' => $album_id));
-
-					// ...to save it in the database
-					$widgetID	= BackendGalleriaModel::insertWidget($widget);
-
-					if($widgetID)
-					{	
-						// then build the locale array ...
-						$locale['user_id'] = (int) '1';
-						$locale['language'] = (string) BL::getWorkingLanguage();
-						$locale['application'] = (string) 'backend';
-						$locale['module'] = (string) 'pages';
-						$locale['type'] = (string) 'lbl';
-						$locale['name'] = (string) BackendGalleriaModel::createWidgetLabel($album['title']);
-						$locale['value'] = (string) $album['title'];
-						$locale['edited_on'] = BackendModel::getUTCDate();
-
-						// ... and store it
-						$localeID = BackendLocaleModel::insert($locale);
-
-						// build the ids array...
-						$ids['album_id'] = (int) $album_id;
-						$ids['widget_id'] = (int) $widgetID;
-						$ids['locale_id'] = (int) $localeID;
-
-						// ... and store it
-						$stored = BackendGalleriaModel::storeAllIds($ids);
-
-						// everything is saved, so redirect to the overview
-						$this->redirect(BackendModel::createURLForAction('albums') . '&report=added-category&var=' . urlencode($album['title']) . '&highlight=row-' . $album['id']);
-					}
-				}
+				
+				// everything is saved, so redirect to the overview
+				$this->redirect(BackendModel::createURLForAction('albums') . '&report=added-category&var=' . urlencode($album['title']) . '&highlight=row-' . $album['id']);
 			}
 		}
 	}

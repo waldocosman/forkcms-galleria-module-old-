@@ -48,7 +48,7 @@ class BackendGalleriaAlbums extends BackendBaseAction
 		$this->dataGrid->setPaging(false);
 
 		// set hidden columns
-		$this->dataGrid->setColumnsHidden(array('language','sequence','meta_id','id','category_id','publish_on'));
+		$this->dataGrid->setColumnsHidden(array('language','sequence','meta_id','id','category_id','publish_on', 'extra_id'));
 		
 		// set column URLs
 		$this->dataGrid->setColumnURL('title', BackendModel::createURLForAction('add') . '&amp;id=[id]');

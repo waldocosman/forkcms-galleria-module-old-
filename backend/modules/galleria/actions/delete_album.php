@@ -19,53 +19,33 @@ class BackendGalleriaDeleteAlbum extends BackendBaseActionDelete
 	 */
 	public function execute()
 	{
+		// get parameters
 		$this->id = $this->getParameter('id', 'int');
-		
+
 		// does the item exist
 		if($this->id !== null && BackendGalleriaModel::existsAlbum($this->id))
 		{
+			// call parent, this will probably add some general CSS/JS or other required files
 			parent::execute();
-			
+
+			// get album
+			$this->album = BackendGalleriaModel::getAlbumFromId($this->id);
+
 			// is this album allowed to be deleted?
 			if(!BackendGalleriaModel::deleteAlbumAllowed($this->id))
 			{
 				$this->redirect(BackendModel::createURLForAction('albums') . '&error=album-not-deletable');
 			}
-
 			else
 			{
-				// get album
-				$this->record = BackendGalleriaModel::getAlbumFromId($this->id);
-				
-				// get id from the locale and widget
-				$ids = BackendGalleriaModel::getExtraIdsForAlbum($this->id);
-
-				// BackendLocaleModel::delete needs an array to function
-				$localeID = array($ids['locale_id']);
-				
-				// delete category
+				// delete the item
 				BackendGalleriaModel::deleteAlbumById($this->id);
-			
-				// delete meta
-				BackendGalleriaModel::deleteMeta($this->record['meta_id']);
-				
-				// delete the widget
-				BackendGalleriaModel::deleteWidgetById($ids['widget_id']);
 
-				// delete the locale
-				BackendLocaleModel::delete($localeID);
+				// trigger event
+				BackendModel::triggerEvent($this->getModule(), 'after_delete_category', array('id' => $this->id));
 
-				// delete the id's
-				BackendGalleriaModel::deleteIdsByAlbumId($this->id);
-
-				
-				// perform extra stuff
-				BackendSearchModel::removeIndex($this->getModule(), $this->id);
-				BackendModel::triggerEvent($this->getModule(), 'after_delete', array('id' => $this->id));
-
-				$this->redirect(
-					BackendModel::createURLForAction('albums') . '&report=album-deleted&var=' . urlencode($this->record['title'])
-				);
+				// item was deleted, so redirect
+				$this->redirect(BackendModel::createURLForAction('albums') . '&report=album-deleted&var=' . urlencode($this->album['title']));
 			}
 		}
 		else $this->redirect(BackendModel::createURLForAction('albums') . '&error=non-existing');

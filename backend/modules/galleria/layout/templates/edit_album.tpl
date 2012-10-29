@@ -52,6 +52,15 @@
 										</ul>
 									</div>
 								</div>
+								<div id="publishOptions" class="box">
+									<div class="heading">
+										<h3>{$lblTags|ucfirst}</h3>
+									</div>
+									<div class="options">
+										<label for="tags">{$lblTags|ucfirst}</label>
+										{$txtTags} {$txtTagsError}
+									</div>
+								</div>
 							</td>
 						</tr>
 					</table>

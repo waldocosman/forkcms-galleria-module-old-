@@ -78,6 +78,7 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 		$this->frm->addText('title', $this->record['title']);
 		$this->frm->getField('title')->setAttribute('class', 'title ' . $this->frm->getField('title')->getAttribute('class'));
 		$this->frm->addEditor('description', $this->record['description']);
+		$this->frm->addText('tags', BackendTagsModel::getTags($this->URL->getModule(), $this->id), null, 'inputText tagBox', 'inputTextError tagBox');
 		$this->frm->addRadiobutton('hidden', $rbtHiddenValues, $this->record['hidden']);
 		$this->frm->addDropdown('category', BackendGalleriaModel::getCategoriesForDropdown(), $this->record['category_id']);
 		
@@ -123,6 +124,7 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 			{
 				// first, build the album array
 				$album['id'] = (int) $this->id;
+				$album['extra_id'] = $this->record['extra_id'];
 				$album['title'] = (string) $this->frm->getField('title')->getValue();
 				$album['description'] = (string) $this->frm->getField('description')->getValue();
 				$album['category_id'] = (int) $this->frm->getField('category')->getValue();
@@ -131,42 +133,13 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 				$album['hidden'] = (string) $this->frm->getField('hidden')->getValue();
 
 				// ... then, update the album
-				$album_update = BackendGalleriaModel::updateAlbum($album);
-				
-				// get id from the locale and widget
-				$ids = BackendGalleriaModel::getExtraIdsForAlbum($this->id);
-				
-				// now we'll be building the locale array
-				$locale['id']			= (int) $ids['locale_id'];
-				$locale['name']			= (string) BackendGalleriaModel::createWidgetLabel($album['title']);
-				$locale['value']		= (string) $album['title'];
-				$locale['edited_on']	= BackendModel::getUTCDate();
-				$locale['user_id']		= (int) '1';
-				$locale['language']		= (string) BL::getWorkingLanguage();
-				$locale['application']	= (string) 'backend';
-				$locale['module']		= (string) 'pages';
-				$locale['type']			= (string) 'lbl';
-				
-				// update the locale
-				BackendLocaleModel::update($locale);
-				
-				// now we'll be building the widget array
-				$widget['id']		= (int) $ids['widget_id'];
-				$widget['label']	= (string) BackendGalleriaModel::createWidgetLabel($album['title']);
-				$widget['module'] 	= (string) $this->getModule();
-				$widget['type']		= (string) 'widget';
-				$widget['action']	= (string) 'widget';
-				$widget['hidden']	= (string) $album['hidden'];
-				$widget['data'] 	= (string) serialize(array('id' => $this->id));
-				
-				// update the widget
-				BackendGalleriaModel::updateWidget($widget);
-				
-				// delete old meta
-				BackendGalleriaModel::deleteMeta($this->record['meta_id']);
-				
+				BackendGalleriaModel::updateAlbum($album);
+							
 				// trigger event
 				BackendModel::triggerEvent($this->getModule(), 'after_edit_album', array('item' => $album));
+				
+				// save the tags
+				BackendTagsModel::saveTags($album['id'], $this->frm->getField('tags')->getValue(), $this->URL->getModule());
 
 				// everything is saved, so redirect to the overview
 				$this->redirect(BackendModel::createURLForAction('albums') . '&report=edited-album&var=' . urlencode($album['title']) . '&highlight=row-' . $album['id']);			
