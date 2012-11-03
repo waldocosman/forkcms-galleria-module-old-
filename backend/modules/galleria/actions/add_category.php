@@ -39,12 +39,6 @@ class BackendGalleriaAddCategory extends BackendBaseActionAdd
 		$this->frm = new BackendForm('add_category');
 		$this->frm->addText('title', null, 255, 'inputText title', 'inputTextError title');
 		$this->frm->addRadiobutton('hidden', $rbtHiddenValues, 'N');
-		
-		// meta
-		$this->meta = new BackendMeta($this->frm, null, 'title', true);
-
-		// set callback for generating an unique URL
-		$this->meta->setURLCallback('BackendGalleriaModel', 'getUrl');
 	}
 
 	/**
@@ -59,9 +53,6 @@ class BackendGalleriaAddCategory extends BackendBaseActionAdd
 
 			// validate fields
 			$this->frm->getField('title')->isFilled(BL::err('TitleIsRequired'));
-
-			// validate meta
-			$this->meta->validate();
 
 			// no errors?
 			if($this->frm->isCorrect())
