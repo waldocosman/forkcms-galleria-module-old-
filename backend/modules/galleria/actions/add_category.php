@@ -60,7 +60,6 @@ class BackendGalleriaAddCategory extends BackendBaseActionAdd
 				// build item
 				$item['title'] = $this->frm->getField('title')->getValue();
 				$item['language'] = BL::getWorkingLanguage();
-				$item['meta_id'] = $this->meta->save();
 				$item['publish_on'] = BackendModel::getUTCDate('Y-m-d H:i:s');
 				$item['hidden'] = $this->frm->getField('hidden')->getValue();
 				
