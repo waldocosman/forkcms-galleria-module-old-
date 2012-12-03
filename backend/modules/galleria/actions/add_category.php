@@ -30,11 +30,11 @@ class BackendGalleriaAddCategory extends BackendBaseActionAdd
 	 * Load the form
 	 */
 	private function loadForm()
-	{	
+	{
 		// set hidden values
 		$rbtHiddenValues[] = array('label' => BL::lbl('Hidden', $this->URL->getModule()), 'value' => 'Y');
 		$rbtHiddenValues[] = array('label' => BL::lbl('Published'), 'value' => 'N');
-		
+
 		// create form
 		$this->frm = new BackendForm('add_category');
 		$this->frm->addText('title', null, 255, 'inputText title', 'inputTextError title');
@@ -62,10 +62,10 @@ class BackendGalleriaAddCategory extends BackendBaseActionAdd
 				$item['language'] = BL::getWorkingLanguage();
 				$item['publish_on'] = BackendModel::getUTCDate('Y-m-d H:i:s');
 				$item['hidden'] = $this->frm->getField('hidden')->getValue();
-				
+
 				// get the highest sequence available
 				$item['sequence'] = BackendGalleriaModel::getMaximumCategorySequence() +1;
-				
+
 				// insert the item
 				$item['id'] = BackendGalleriaModel::insertCategory($item);
 

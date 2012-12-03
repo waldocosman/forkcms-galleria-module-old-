@@ -397,4 +397,57 @@ class BackendGalleriaModel
 		// delete the widget
 		return (bool) BackendModel::getDB(true)->update('modules_extras',(array) $widget,'id = ?', array((int) $widget['id']));
 	}
+
+	/**
+	 * Retrieve the unique URL for an item
+	 *
+	 * @param string $URL The URL to base on.
+	 * @param int[optional] $id The id of the item to ignore.
+	 * @return string
+	 */
+	public static function getURL($URL, $id = null)
+	{
+		$URL = (string) $URL;
+
+		// get db
+		$db = BackendModel::getDB();
+
+		// new item
+		if($id === null)
+		{
+			// already exists
+			if((bool) $db->getVar(
+				'SELECT 1
+				 FROM galleria_albums AS i
+				 INNER JOIN meta AS m ON i.meta_id = m.id
+				 WHERE i.language = ? AND m.url = ?
+				 LIMIT 1',
+				array(BL::getWorkingLanguage(), $URL)))
+			{
+				$URL = BackendModel::addNumber($URL);
+				return self::getURL($URL);
+			}
+		}
+
+		// current category should be excluded
+		else
+		{
+			// already exists
+			if((bool) $db->getVar(
+				'SELECT 1
+				 FROM galleria_albums AS i
+				 INNER JOIN meta AS m ON i.meta_id = m.id
+				 WHERE i.language = ? AND m.url = ? AND i.id != ?
+				 LIMIT 1',
+				array(BL::getWorkingLanguage(), $URL, $id)))
+			{
+
+				$URL = BackendModel::addNumber($URL);
+				return self::getURL($URL, $id);
+			}
+		}
+
+		return $URL;
+	}
+
 }

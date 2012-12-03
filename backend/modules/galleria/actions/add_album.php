@@ -40,6 +40,18 @@ class BackendGalleriaAddAlbum extends BackendBaseActionAdd
 		$this->display();
 	}
 
+	protected function parse()
+	{
+		parent::parse();
+
+		// get url
+		$url = BackendModel::getURLForBlock($this->URL->getModule(), 'detail');
+		$url404 = BackendModel::getURL(404);
+
+		// parse additional variables
+		if($url404 != $url) $this->tpl->assign('detailURL', SITE_URL . $url);
+	}
+
 	/**
 	 * Load the form
 	 *
@@ -115,7 +127,7 @@ class BackendGalleriaAddAlbum extends BackendBaseActionAdd
 				$album['description'] = (string) $this->frm->getField('description')->getValue();
 				
 				// first, insert the album
-				BackendGalleriaModel::insertAlbum($album);
+				$album['id'] = BackendGalleriaModel::insertAlbum($album);
 				
 				// save the tags
 				BackendTagsModel::saveTags($album['id'], $this->frm->getField('tags')->getValue(), $this->URL->getModule());
@@ -124,7 +136,7 @@ class BackendGalleriaAddAlbum extends BackendBaseActionAdd
 				BackendModel::triggerEvent($this->getModule(), 'after_add_album', array('item' => $album));
 				
 				// everything is saved, so redirect to the overview
-				$this->redirect(BackendModel::createURLForAction('albums') . '&report=added-category&var=' . urlencode($album['title']) . '&highlight=row-' . $album['id']);
+				$this->redirect(BackendModel::createURLForAction('albums') . '&report=added-album&var=' . urlencode($album['title']) . '&highlight=row-' . $album['id']);
 			}
 		}
 	}
