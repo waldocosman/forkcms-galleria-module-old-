@@ -133,6 +133,9 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 				//--Add the parsed data to the array
 				$image["field_delete"] = $chkDelete->parse();
 			}
+
+			//--Destroy the last $image (because of the reference) -- sugested by http://php.net/manual/en/control-structures.foreach.php
+			unset($image);
 		}
 	}
 

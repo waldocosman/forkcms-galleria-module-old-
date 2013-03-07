@@ -319,6 +319,8 @@ class BackendGalleriaModel
 			{
 				foreach($folders as $folder) $row['image_' . $folder['dirname']] = $folder['url'] .  '/' . $folder['dirname'] . '/'  . $row['filename'];
 			}
+			//--Destroy the last $image (because of the reference) -- sugested by http://php.net/manual/en/control-structures.foreach.php
+			unset($row);
 		}
 
 		return $records;
