@@ -253,6 +253,7 @@ class BackendGalleriaModel
 	/**
 	 * Get the maximum sequence for an album
 	 *
+	 * @param int $album_id
 	 * @return int
 	 */
 	public static function getMaximumImageSequence($album_id)
