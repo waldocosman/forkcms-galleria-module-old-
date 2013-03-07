@@ -124,9 +124,6 @@ class BackendGalleriaEditCategory extends BackendBaseActionEdit
 				// ... then, update the category
 				$category_update = BackendGalleriaModel::updateCategory($category);
 				
-				// delete old meta
-				//BackendGalleriaModel::deleteMeta($this->record['meta_id']);
-				
 				// trigger event
 				BackendModel::triggerEvent($this->getModule(), 'after_edit_category', array('item' => $category));
 
