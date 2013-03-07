@@ -18,7 +18,10 @@
 							{* Main content *}
 							<div class="heading">
 								<h3>{$lblImages|ucfirst}</h3>
+                                {$fileImages}
+
 							</div>
+                        </div>
 
 							
 

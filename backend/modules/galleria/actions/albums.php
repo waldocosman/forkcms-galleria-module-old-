@@ -51,7 +51,7 @@ class BackendGalleriaAlbums extends BackendBaseAction
 		$this->dataGrid->setColumnsHidden(array('language','sequence','meta_id','id','category_id','publish_on', 'extra_id'));
 		
 		// set column URLs
-		$this->dataGrid->setColumnURL('title', BackendModel::createURLForAction('add') . '&amp;id=[id]');
+		$this->dataGrid->setColumnURL('title', BackendModel::createURLForAction('edit_album') . '&amp;id=[id]');
 		
 		// add drag and dropp stuff
 		$this->dataGrid->enableSequenceByDragAndDrop();
@@ -60,7 +60,7 @@ class BackendGalleriaAlbums extends BackendBaseAction
 		$this->dataGrid->setAttributes(array('data-action' => "album_sequence"));
 
 		// add edit column
-		$this->dataGrid->addColumn('add', null, BL::lbl('Add'), BackendModel::createURLForAction('add') . '&amp;id=[id]');
+		$this->dataGrid->addColumn('add', null, BL::lbl('Add'), BackendModel::createURLForAction('edit_album') . '&amp;id=[id]#tabImages');
 		$this->dataGrid->setHeaderLabels(array('add' => SpoonFilter::ucfirst(BL::lbl('AddImages'))));
 		$this->dataGrid->addColumn('edit', null, BL::lbl('Edit'), BackendModel::createURLForAction('edit_album') . '&amp;id=[id]');
 		$this->dataGrid->setHeaderLabels(array('edit' => SpoonFilter::ucfirst(BL::lbl('EditAlbum'))));

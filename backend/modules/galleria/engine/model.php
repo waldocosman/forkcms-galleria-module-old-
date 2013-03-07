@@ -57,6 +57,8 @@ class BackendGalleriaModel
 		 WHERE i.category_id = ? AND i.language = ?',
 		 array((int) $id, BL::getWorkingLanguage())) == 0);
 	}
+
+
 	
 	/**
 	 * Delete an album
@@ -127,6 +129,21 @@ class BackendGalleriaModel
 		// delete the widget
 		return (bool) BackendModel::getDB(true)->delete('modules_extras', 'id = ?', array((int) $id));
 	}
+
+	/**
+	 * Does the image exist?
+	 *
+	 * @param int $id
+	 * @return bool
+	 */
+	public static function exists($id)
+	{
+		return (bool) BackendModel::getDB()->getVar(
+			'SELECT COUNT(i.id)
+		 FROM galleria_images AS i
+		 WHERE i.id = ? AND i.language = ?',
+			array((int) $id, BL::getWorkingLanguage()));
+	}
 	
 	/**
 	 * Does the album exist?
@@ -157,7 +174,22 @@ class BackendGalleriaModel
 		 WHERE i.id = ? AND i.language = ?',
 		 array((int) $id, BL::getWorkingLanguage()));
 	}
-	
+
+	/**
+	 * Get image by id
+	 *
+	 * @param int $id
+	 * @return array
+	 */
+	public static function get($id)
+	{
+		return (array) BackendModel::getDB()->getRecord(
+			'SELECT i.*
+		 FROM galleria_images AS i
+		 WHERE i.language = ? AND i.id = ?',
+			array(BL::getWorkingLanguage(),(int) $id));
+	}
+
 	/**
 	 * Get album by id
 	 *
@@ -217,7 +249,22 @@ class BackendGalleriaModel
 		 WHERE i.language = ? AND i.id = ?',
 		 array(BL::getWorkingLanguage(),(int) $id));
 	}
-	
+
+	/**
+	 * Get the maximum sequence for an album
+	 *
+	 * @param int $album_id
+	 * @return int
+	 */
+	public static function getMaximumImageSequence($album_id)
+	{
+		return (int) BackendModel::getDB()->getVar(
+			'SELECT MAX(i.sequence)
+			 FROM galleria_images AS i
+			 WHERE i.language = ? AND album_id = ?',
+			array(BL::getWorkingLanguage(), $album_id));
+	}
+
 	/**
 	 * Get the maximum sequence for an album
 	 *
@@ -244,6 +291,39 @@ class BackendGalleriaModel
 			 FROM galleria_categories AS i
 			 WHERE i.language = ? AND hidden = ?',
 			 array(BL::getWorkingLanguage(), 'N'));
+	}
+
+	/**
+	 * Get the images for an album
+	 *
+	 * @param int $id
+	 * @return bool
+	 */
+	public static function getImagesForAlbum($id)
+	{
+		$records = (array) BackendModel::getDB()->getRecords(
+			'SELECT i.*
+			 FROM galleria_images AS i
+			 WHERE i.language = ? AND i.album_id = ?
+			 ORDER BY sequence',
+			array(BL::getWorkingLanguage(),(int) $id));
+
+		//--Loop records
+		if(!empty($records))
+		{
+			//--Get the thumbnail-folders
+			$folders = BackendModel::getThumbnailFolders(FRONTEND_FILES_PATH . '/galleria/images', true);
+
+			//--Create the image-links to the thumbnail folders
+			foreach($records as &$row)
+			{
+				foreach($folders as $folder) $row['image_' . $folder['dirname']] = $folder['url'] .  '/' . $folder['dirname'] . '/'  . $row['filename'];
+			}
+			//--Destroy the last $image (because of the reference) -- sugested by http://php.net/manual/en/control-structures.foreach.php
+			unset($row);
+		}
+
+		return $records;
 	}
 
 	/**
@@ -373,7 +453,19 @@ class BackendGalleriaModel
 		// return the id
 		return $update;
 	}
-	
+
+	/**
+	 * Update an image
+	 *
+	 * @param array $item
+	 * @return bool
+	 */
+	public static function update(array $item)
+	{
+		return (bool) BackendModel::getDB(true)->update('galleria_images',(array) $item, 'id = ?', array($item['id']));
+		BackendModel::invalidateFrontendCache('galleria', BL::getWorkingLanguage());
+	}
+
 	/**
 	 * Update a certain category
 	 *
@@ -448,6 +540,82 @@ class BackendGalleriaModel
 		}
 
 		return $URL;
+	}
+
+	/**
+	 * Insert an item in the database
+	 *
+	 * @param array $data
+	 * @return int
+	 */
+	public static function insert(array $data)
+	{
+
+		$insertId = (int) BackendModel::getDB(true)->insert('galleria_images', $data);
+
+		return $insertId;
+	}
+
+	/**
+	 *
+	 * Delete image from an album
+	 *
+	 * @param $id
+	 */
+	public static function delete($id)
+	{
+
+		//--Get the image
+		$image = BackendGalleriaModel::get((int) $id);
+
+		if(!empty($image))
+		{
+			//--Get folders
+			$folders = BackendModel::getThumbnailFolders(FRONTEND_FILES_PATH . '/galleria/images', true);
+
+			//--Loop the folders
+			foreach($folders as $folder)
+			{
+				//--Delete the image
+				SpoonFile::delete($folder['url'] .  '/' . $folder['dirname'] . '/'  . $image['filename']);
+			}
+
+			//--Delete images from the database
+			BackendModel::getDB()->delete("galleria_images", "id=?", array($id));
+		}
+	}
+
+	/**
+	 * Build the filename
+	 *
+	 * @param $filename
+	 * @param $extension
+	 * @param $try
+	 *
+	 */
+	public static function checkFilename($filename = "", $extension = "", $try = 0)
+	{
+		if($try > 0)
+		{
+			$filename_full = $filename . $try . "." . $extension;
+		}
+		else
+		{
+			//--Get filename
+			$filename_full = $filename . "." . $extension;
+		}
+
+		$db = BackendModel::getDB();
+		$record = $db->getRecord("SELECT filename FROM galleria_images WHERE filename = ?", array($filename_full));
+		if(is_null($record))
+		{
+			return $filename_full;
+		}
+		else
+		{
+			//--Get new filename
+			return self::checkFilename($filename, $extension, $try +1);
+		}
 	}
 
 }

@@ -1,0 +1,23 @@
+
+
+/*** GALLERIA ***/
+ul.galleria
+{
+    margin-top: 20px;
+}
+
+ul.galleria li
+{
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    float: left;
+    padding: 10px;
+    margin:0 15px 15px 0;
+    width: 128px;
+}
+ul.galleria li img
+{
+    cursor: move;
+}
+
+/*** END GALLERIA ***/
