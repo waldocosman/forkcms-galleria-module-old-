@@ -79,7 +79,7 @@ class BackendGalleriaModel
 			'id' => $item['extra_id'], 
 			'module' => 'galleria', 
 			'type' => 'widget', 
-			'action' => 'widget'
+			'action' => 'gallery'
 		);
 
 		// delete extra
@@ -335,19 +335,27 @@ class BackendGalleriaModel
 	public static function insertAlbum(array $item)
 	{
 		$db = BackendModel::getDB(true);
-		
-		// build extra
+
+		// insert and return the id
+		$item['id'] = $db->insert('galleria_albums', $item);
+
+		// build extra for the gallery-widget
 		$extra = array(
 			'module' => 'galleria', 
 			'type' => 'widget', 
 			'label' => 'galleria', 
-			'action' => 'widget', 
-			'data' => NULL, 
+			'action' => 'gallery',
+			'data' => serialize(array(
+				'id' => $item['id'],
+				'extra_label' => "Gallery " . $item['title'],
+				'language' => $item['language'],
+				'edit_url' => BackendModel::createURLForAction('edit_album') . '&id=' . $item['id']
+			)),
 			'hidden' => 'N', 
 			'sequence' => $db->getVar(
 				'SELECT MAX(i.sequence) + 1
 				 FROM modules_extras AS i
-				 WHERE i.module = ?', 
+				 WHERE i.module = ?',
 				array('links')
 		));
 
@@ -356,29 +364,37 @@ class BackendGalleriaModel
 			 FROM modules_extras AS i'
 		);
 
-		// insert extra
+		// insert extra gallery-widget
 		$item['extra_id'] = $db->insert('modules_extras', $extra);
-		$extra['id'] = $item['extra_id'];
 
-		// insert and return the id
-		$item['id'] = $db->insert('galleria_albums', $item);
 
-		// update extra (item id is now known)
-		$extra['data'] = serialize(array(
-			'id' => $item['id'], 
-			'extra_label' => $item['title'], 
-			'language' => $item['language'], 
-			'edit_url' => BackendModel::createURLForAction('edit_album') . '&id=' . $item['id']
-		));
-		$db->update(
-			'modules_extras', $extra, 'id = ? AND module = ? AND type = ? AND action = ?', 
-			array(
-				$extra['id'], 
-				$extra['module'], 
-				$extra['type'], 
-				$extra['action']
-			)
+		// build extra for the slideshow-widget
+		$extra = array(
+			'module' => 'galleria',
+			'type' => 'widget',
+			'label' => 'galleria',
+			'action' => 'slideshow',
+			'data' => serialize(array(
+				'id' => $item['id'],
+				'extra_label' => "Slideshow " . $item['title'],
+				'language' => $item['language'],
+				'edit_url' => BackendModel::createURLForAction('edit_album') . '&id=' . $item['id']
+			)),
+			'hidden' => 'N',
+			'sequence' => $db->getVar(
+				'SELECT MAX(i.sequence) + 1
+				 FROM modules_extras AS i
+				 WHERE i.module = ?',
+				array('links')
+			));
+
+		if(is_null($extra['sequence'])) $extra['sequence'] = $db->getVar(
+			'SELECT CEILING(MAX(i.sequence) / 1000) * 1000
+			 FROM modules_extras AS i'
 		);
+
+		// insert extra slideshow-widget
+		$item['extra_id'] = $db->insert('modules_extras', $extra);
 
 		return $item['id'];
 

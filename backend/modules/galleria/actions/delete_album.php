@@ -42,7 +42,7 @@ class BackendGalleriaDeleteAlbum extends BackendBaseActionDelete
 				BackendGalleriaModel::deleteAlbumById($this->id);
 
 				// trigger event
-				BackendModel::triggerEvent($this->getModule(), 'after_delete_category', array('id' => $this->id));
+				BackendModel::triggerEvent($this->getModule(), 'after_delete_album', array('id' => $this->id));
 
 				// item was deleted, so redirect
 				$this->redirect(BackendModel::createURLForAction('albums') . '&report=album-deleted&var=' . urlencode($this->album['title']));

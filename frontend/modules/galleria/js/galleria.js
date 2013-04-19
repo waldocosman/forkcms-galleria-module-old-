@@ -9,13 +9,19 @@
  * Interaction for the galleria module
  *
  * @author John Poelman <john.poelman@bloobz.be>
+ * @author Waldo Cosman <waldo@comsa.be>
  */
 jsFrontend.galleria =
 {
 	// constructor
 	init: function()
 	{
+        //--Initialize colorbox to the gallery
+        $('ul.galleria-gallery li a').colorbox({rel:'group'});
 
+
+        //--Initialize slidehow
+        $('ul.galleria-slideshow').cycle();
 	}
 }
 

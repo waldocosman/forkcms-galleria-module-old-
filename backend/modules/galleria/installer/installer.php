@@ -43,6 +43,8 @@ class GalleriaInstaller extends ModuleInstaller
 		$this->setActionRights(1, 'galleria', 'settings');
 
 		// add extra's
+		$this->insertExtra('galleria', 'widget', 'Slideshow', 'slideshow');
+		$this->insertExtra('galleria', 'widget', 'Gallery', 'gallery');
 		$galleriaID = $this->insertExtra('galleria', 'block', 'Galleria', null, null, 'N', 1000);
 				
 		// module navigation

@@ -97,9 +97,9 @@
                     <div class="box">
                         {$fileImages} {$fileImagesError}
                     </div>
-                    <div class="box">
-                        <input id="addImageButton" class="inputButton button mainButton" type="submit" name="add" value="{$lblAddImage|ucfirst}" />
-                    </div>
+                    {*<div class="box">*}
+                        {*<input id="addImageButton" class="inputButton button mainButton" type="submit" name="add" value="{$lblAddImage|ucfirst}" />*}
+                    {*</div>*}
                     <div class="clearfix">&nbsp;</div>
                 </div>
 
