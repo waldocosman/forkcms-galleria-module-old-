@@ -86,6 +86,34 @@
 				<translation language="nl"><![CDATA[album bewerken]]></translation>
 				<translation language="en"><![CDATA[edit album]]></translation>
 			</item>
+            <item type="label" name="AddImage">
+                <translation language="nl"><![CDATA[foto toevoegen]]></translation>
+                <translation language="en"><![CDATA[add image]]></translation>
+            </item>
+            <item type="label" name="UploadImage">
+                <translation language="nl"><![CDATA[foto uploaden]]></translation>
+                <translation language="en"><![CDATA[upload image]]></translation>
+            </item>
+            <item type="label" name="DeleteSelectedImages">
+                <translation language="nl"><![CDATA[geselecteerde foto's verwijderen]]></translation>
+                <translation language="en"><![CDATA[delete selected images]]></translation>
+            </item>
+            <item type="message" name="DeleteImages">
+                <translation language="nl"><![CDATA[de geselecteerde foto's werden verwijderd]]></translation>
+                <translation language="en"><![CDATA[the selected images are deleted]]></translation>
+            </item>
+            <item type="message" name="AddedImage">
+                <translation language="nl"><![CDATA[de afbeelding werd toegevoegd]]></translation>
+                <translation language="en"><![CDATA[the image is added]]></translation>
+            </item>
+            <item type="message" name="AddedImages">
+                <translation language="nl"><![CDATA[de afbeeldingen werden toegevoegd]]></translation>
+                <translation language="en"><![CDATA[the images are added]]></translation>
+            </item>
+            <item type="label" name="ChooseImages">
+                <translation language="nl"><![CDATA[kies afbeeldingen]]></translation>
+                <translation language="en"><![CDATA[choose images]]></translation>
+            </item>
 		</galleria>
 		<core>
 			<item type="label" name="Galleria">

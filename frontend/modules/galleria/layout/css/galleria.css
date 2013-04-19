@@ -1,0 +1,24 @@
+/*** GALLERY ***/
+ul.galleria-gallery
+{
+    height:128px;
+}
+ul.galleria-gallery li
+{
+    float: left;
+    margin-right: 20px;
+}
+
+ul.galleria-gallery li a
+{
+    border: 0;
+    text-decoration: none;
+}
+/*** END GALLERY ***/
+
+/*** SLIDESHOW ***/
+ul.galleria-slideshow
+{
+    height: 128px;
+}
+/*** END SLIDESHOW ***/

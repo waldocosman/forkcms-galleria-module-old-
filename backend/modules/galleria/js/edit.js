@@ -11,6 +11,9 @@ jsBackend.galleria =
     {
         //--Initialise sortable
         jsBackend.galleria.bindSortable();
+
+        //--Initialise uploadify
+        jsBackend.galleria.uploadify();
     },
 
     bindSortable: function()
@@ -34,7 +37,7 @@ jsBackend.galleria =
                 //--Create a string of the array with a , delimeter.
                 var strIds = arrIds.join(',');
 
-            //--Create ajax-call
+                //--Create ajax-call
                 $.ajax(
                 {
                     data:
@@ -66,6 +69,25 @@ jsBackend.galleria =
                         if(jsBackend.debug){ alert(textStatus); }
                     }
                 })
+            }
+        });
+    },
+    uploadify: function()
+    {
+
+        $('#images').uploadify({
+            'swf'      : '/backend/modules/galleria/swf/uploadify.swf',
+            'buttonText': jsBackend.locale.lbl('ChooseImages'),
+            'width': 218,
+            'height': 24,
+            'uploader' : '/backend/ajax.php',
+            'formData' : {'fork[module]': "galleria", 'fork[action]': "uploadify",'fork[language]': jsBackend.current.language, 'id': jsData.galleria.id},
+            'fileObjName': 'images',
+            'onQueueComplete': function(queueData)
+            {
+                var randomNumber = Math.floor(Math.random()*11)
+
+                window.location.replace("/private/"+ jsBackend.current.language + "/galleria/edit_album?token=true&id=" + jsData.galleria.id + "&report=added-images&random=" + randomNumber + "#tabImages");
             }
         });
     }

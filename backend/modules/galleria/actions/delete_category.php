@@ -40,6 +40,9 @@ class BackendGalleriaDeleteCategory extends BackendBaseActionDelete
 				// delete category
 				BackendGalleriaModel::deleteCategoryById($this->id);
 
+				BackendModel::triggerEvent($this->getModule(), 'after_delete_category', array('id' => $this->id));
+
+
 				$this->redirect(BackendModel::createURLForAction('categories') . '&report=category-deleted&var=' . urlencode($this->record['title']));
 			}
 		}

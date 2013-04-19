@@ -148,7 +148,9 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 	{
 
 		//--Add javascript file
+		$this->header->addJS('jquery.uploadify.min.js');
 		$this->header->addJS('edit.js');
+		$this->header->addCSS('uploadify.css');
 
 		// call parent
 		parent::parse();
@@ -161,6 +163,9 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 
 		if($this->frmDeleteImage) $this->frmDeleteImage->parse($this->tpl);
 
+
+		//--Add data to Javascript
+		$this->header->addJsData("galleria", "id", $this->id);
 
 		// can the category be deleted?
 		if(BackendGalleriaModel::deleteAlbumAllowed($this->id)) $this->tpl->assign('showDelete', true);
@@ -218,6 +223,7 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 	 */
 	private function validateFormAddImage()
 	{
+
 		//--Check if the add-image form is submitted
 		if($this->frmAddImage->isSubmitted())
 		{
