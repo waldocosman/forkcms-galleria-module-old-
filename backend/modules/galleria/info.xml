@@ -3,15 +3,11 @@
 	<name>galleria</name>
 	<version>1.1.0</version>
 	<requirements>
-		<minimum_version>3.0.0</minimum_version>
+		<minimum_version>3.5.0</minimum_version>
 	</requirements>
 	<description>
 		<![CDATA[
 			The all-in-one image gallery.
-			Changelog:
-
-			v1.1: Integration Uploadify
-			v1.0: Launch basic version
 		]]>
 	</description>
 	<authors>
