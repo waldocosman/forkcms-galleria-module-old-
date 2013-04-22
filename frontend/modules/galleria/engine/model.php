@@ -24,7 +24,7 @@ class FrontendGalleriaModel
 	 */
 	public static function getImagesForAlbum($id)
 	{
-		$records = (array) FrontendModel::getDB()->getRecords(
+		$records = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.*
 			 FROM galleria_images AS i
 			 WHERE i.language = ? AND i.album_id = ?

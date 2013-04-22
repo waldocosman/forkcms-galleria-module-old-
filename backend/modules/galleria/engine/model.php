@@ -36,7 +36,7 @@ class BackendGalleriaModel
 	 */
 	public static function deleteAlbumAllowed($id)
 	{
-		return (bool) (BackendModel::getDB()->getVar(
+		return (bool) (BackendModel::getContainer()->get('database')->getVar(
 		'SELECT COUNT(id)
 		 FROM galleria_images AS i
 		 WHERE i.album_id = ? AND i.language = ?',
@@ -51,7 +51,7 @@ class BackendGalleriaModel
 	 */
 	public static function deleteCategoryAllowed($id)
 	{
-		return (bool) (BackendModel::getDB()->getVar(
+		return (bool) (BackendModel::getContainer()->get('database')->getVar(
 		'SELECT COUNT(id)
 		 FROM galleria_albums AS i
 		 WHERE i.category_id = ? AND i.language = ?',
@@ -69,7 +69,7 @@ class BackendGalleriaModel
 	public static function deleteAlbumById($id)
 	{
 		$id = (int) $id;
-		$db = BackendModel::getDB(true);
+		$db = BackendModel::getContainer()->get('database');
 
 		// get item
 		$item = self::getAlbumFromId($id);
@@ -115,7 +115,7 @@ class BackendGalleriaModel
 	public static function deleteCategoryById($id)
 	{
 		// delete the widget
-		return (bool) BackendModel::getDB(true)->delete('galleria_categories', 'id = ?', array((int) $id));
+		return (bool) BackendModel::getContainer()->get('database')->delete('galleria_categories', 'id = ?', array((int) $id));
 	}
 	
 	/**
@@ -127,7 +127,7 @@ class BackendGalleriaModel
 	public static function deleteWidgetById($id)
 	{
 		// delete the widget
-		return (bool) BackendModel::getDB(true)->delete('modules_extras', 'id = ?', array((int) $id));
+		return (bool) BackendModel::getContainer()->get('database')->delete('modules_extras', 'id = ?', array((int) $id));
 	}
 
 	/**
@@ -138,7 +138,7 @@ class BackendGalleriaModel
 	 */
 	public static function exists($id)
 	{
-		return (bool) BackendModel::getDB()->getVar(
+		return (bool) BackendModel::getContainer()->get('database')->getVar(
 			'SELECT COUNT(i.id)
 		 FROM galleria_images AS i
 		 WHERE i.id = ? AND i.language = ?',
@@ -153,7 +153,7 @@ class BackendGalleriaModel
 	 */
 	public static function existsAlbum($id)
 	{
-		return (bool) BackendModel::getDB()->getVar(
+		return (bool) BackendModel::getContainer()->get('database')->getVar(
 		'SELECT COUNT(i.id)
 		 FROM galleria_albums AS i
 		 WHERE i.id = ? AND i.language = ?',
@@ -168,7 +168,7 @@ class BackendGalleriaModel
 	 */
 	public static function existsCategory($id)
 	{
-		return (bool) BackendModel::getDB()->getVar(
+		return (bool) BackendModel::getContainer()->get('database')->getVar(
 		'SELECT COUNT(i.id)
 		 FROM galleria_categories AS i
 		 WHERE i.id = ? AND i.language = ?',
@@ -183,7 +183,7 @@ class BackendGalleriaModel
 	 */
 	public static function get($id)
 	{
-		return (array) BackendModel::getDB()->getRecord(
+		return (array) BackendModel::getContainer()->get('database')->getRecord(
 			'SELECT i.*
 		 FROM galleria_images AS i
 		 WHERE i.language = ? AND i.id = ?',
@@ -198,7 +198,7 @@ class BackendGalleriaModel
 	 */
 	public static function getAlbumFromId($id)
 	{
-		return (array) BackendModel::getDB()->getRecord(
+		return (array) BackendModel::getContainer()->get('database')->getRecord(
 		'SELECT i.*
 		 FROM galleria_albums AS i
 		 WHERE i.language = ? AND i.id = ?',
@@ -212,7 +212,7 @@ class BackendGalleriaModel
 	 */
 	public static function getAlbumsForDropdown()
 	{
-		return (array) BackendModel::getDB()->getPairs(
+		return (array) BackendModel::getContainer()->get('database')->getPairs(
 		'SELECT i.id, i.title
 		FROM galleria_albums AS i
 		WHERE i.language = ?
@@ -227,7 +227,7 @@ class BackendGalleriaModel
 	 */
 	public static function getCategoriesForDropdown()
 	{
-		return (array) BackendModel::getDB()->getPairs(
+		return (array) BackendModel::getContainer()->get('database')->getPairs(
 		'SELECT i.id, i.title
 		FROM galleria_categories AS i
 		WHERE i.language = ?
@@ -243,7 +243,7 @@ class BackendGalleriaModel
 	 */
 	public static function getCategoryFromId($id)
 	{
-		return (array) BackendModel::getDB()->getRecord(
+		return (array) BackendModel::getContainer()->get('database')->getRecord(
 		'SELECT i.*
 		 FROM galleria_categories AS i
 		 WHERE i.language = ? AND i.id = ?',
@@ -258,7 +258,7 @@ class BackendGalleriaModel
 	 */
 	public static function getMaximumImageSequence($album_id)
 	{
-		return (int) BackendModel::getDB()->getVar(
+		return (int) BackendModel::getContainer()->get('database')->getVar(
 			'SELECT MAX(i.sequence)
 			 FROM galleria_images AS i
 			 WHERE i.language = ? AND album_id = ?',
@@ -272,7 +272,7 @@ class BackendGalleriaModel
 	 */
 	public static function getMaximumAlbumSequence()
 	{
-		return (int) BackendModel::getDB()->getVar(
+		return (int) BackendModel::getContainer()->get('database')->getVar(
 			'SELECT MAX(i.sequence)
 			 FROM galleria_albums AS i
 			 WHERE i.language = ? AND hidden = ?',
@@ -286,7 +286,7 @@ class BackendGalleriaModel
 	 */
 	public static function getMaximumCategorySequence()
 	{
-		return (int) BackendModel::getDB()->getVar(
+		return (int) BackendModel::getContainer()->get('database')->getVar(
 			'SELECT MAX(i.sequence)
 			 FROM galleria_categories AS i
 			 WHERE i.language = ? AND hidden = ?',
@@ -301,7 +301,7 @@ class BackendGalleriaModel
 	 */
 	public static function getImagesForAlbum($id)
 	{
-		$records = (array) BackendModel::getDB()->getRecords(
+		$records = (array) BackendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.*
 			 FROM galleria_images AS i
 			 WHERE i.language = ? AND i.album_id = ?
@@ -334,7 +334,7 @@ class BackendGalleriaModel
 	 */
 	public static function insertAlbum(array $item)
 	{
-		$db = BackendModel::getDB(true);
+		$db = BackendModel::getContainer()->get('database');
 
 		// insert and return the id
 		$item['id'] = $db->insert('galleria_albums', $item);
@@ -408,7 +408,7 @@ class BackendGalleriaModel
 	 */
 	public static function insertCategory(array $data)
 	{
-		return (int) BackendModel::getDB(true)->insert('galleria_categories', $data);
+		return (int) BackendModel::getContainer()->get('database')->insert('galleria_categories', $data);
 	}
 	
 	/**
@@ -419,7 +419,7 @@ class BackendGalleriaModel
 	 */
 	public static function insertWidget(array $widget)
 	{
-		$db = BackendModel::getDB(true);
+		$db = BackendModel::getContainer()->get('database');
 
 		// get widget sequence
 		$widget['sequence'] =  $db->getVar('SELECT MAX(i.sequence) + 1 FROM modules_extras AS i WHERE i.module = ?',
@@ -443,7 +443,7 @@ class BackendGalleriaModel
 	 */
 	public static function updateAlbum(array $item)
 	{
-		$db = BackendModel::getDB(true);
+		$db = BackendModel::getContainer()->get('database');
 
 		// build extra
 		$extra = array(
@@ -478,7 +478,7 @@ class BackendGalleriaModel
 	 */
 	public static function update(array $item)
 	{
-		return (bool) BackendModel::getDB(true)->update('galleria_images',(array) $item, 'id = ?', array($item['id']));
+		return (bool) BackendModel::getContainer()->get('database')->update('galleria_images',(array) $item, 'id = ?', array($item['id']));
 		BackendModel::invalidateFrontendCache('galleria', BL::getWorkingLanguage());
 	}
 
@@ -490,7 +490,7 @@ class BackendGalleriaModel
 	 */
 	public static function updateCategory(array $item)
 	{
-		return (bool) BackendModel::getDB(true)->update('galleria_categories',(array) $item, 'id = ?', array($item['id']));
+		return (bool) BackendModel::getContainer()->get('database')->update('galleria_categories',(array) $item, 'id = ?', array($item['id']));
 		BackendModel::invalidateFrontendCache('galleria', BL::getWorkingLanguage());
 	}
 	
@@ -503,7 +503,7 @@ class BackendGalleriaModel
 	public static function updateWidget($widget)
 	{
 		// delete the widget
-		return (bool) BackendModel::getDB(true)->update('modules_extras',(array) $widget,'id = ?', array((int) $widget['id']));
+		return (bool) BackendModel::getContainer()->get('database')->update('modules_extras',(array) $widget,'id = ?', array((int) $widget['id']));
 	}
 
 	/**
@@ -518,7 +518,7 @@ class BackendGalleriaModel
 		$URL = (string) $URL;
 
 		// get db
-		$db = BackendModel::getDB();
+		$db = BackendModel::getContainer()->get('database');
 
 		// new item
 		if($id === null)
@@ -567,7 +567,7 @@ class BackendGalleriaModel
 	public static function insert(array $data)
 	{
 
-		$insertId = (int) BackendModel::getDB(true)->insert('galleria_images', $data);
+		$insertId = (int) BackendModel::getContainer()->get('database')->insert('galleria_images', $data);
 
 		return $insertId;
 	}
@@ -597,7 +597,7 @@ class BackendGalleriaModel
 			}
 
 			//--Delete images from the database
-			BackendModel::getDB()->delete("galleria_images", "id=?", array($id));
+            BackendModel::getContainer()->get('database')->delete("galleria_images", "id=?", array($id));
 		}
 	}
 
@@ -621,7 +621,7 @@ class BackendGalleriaModel
 			$filename_full = $filename . "." . $extension;
 		}
 
-		$db = BackendModel::getDB();
+		$db = BackendModel::getContainer()->get('database');
 		$record = $db->getRecord("SELECT filename FROM galleria_images WHERE filename = ?", array($filename_full));
 		if(is_null($record))
 		{
