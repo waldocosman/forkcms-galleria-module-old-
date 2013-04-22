@@ -39,6 +39,9 @@ class BackendGalleriaAddCategory extends BackendBaseActionAdd
 		$this->frm = new BackendForm('add_category');
 		$this->frm->addText('title', null, 255, 'inputText title', 'inputTextError title');
 		$this->frm->addRadiobutton('hidden', $rbtHiddenValues, 'N');
+
+        // meta
+        $this->meta = new BackendMeta($this->frm, null, 'title', true);
 	}
 
 	/**
@@ -62,6 +65,7 @@ class BackendGalleriaAddCategory extends BackendBaseActionAdd
 				$item['language'] = BL::getWorkingLanguage();
 				$item['publish_on'] = BackendModel::getUTCDate('Y-m-d H:i:s');
 				$item['hidden'] = $this->frm->getField('hidden')->getValue();
+                $item['meta_id'] = $this->meta->save();
 
 				// get the highest sequence available
 				$item['sequence'] = BackendGalleriaModel::getMaximumCategorySequence() +1;
