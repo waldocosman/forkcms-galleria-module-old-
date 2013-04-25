@@ -1,8 +1,9 @@
 /*** GALLERY ***/
 ul.galleria-gallery
 {
-    height:128px;
+    height: 128px;
 }
+
 ul.galleria-gallery li
 {
     float: left;
@@ -14,6 +15,7 @@ ul.galleria-gallery li a
     border: 0;
     text-decoration: none;
 }
+
 /*** END GALLERY ***/
 
 /*** SLIDESHOW ***/
@@ -21,4 +23,10 @@ ul.galleria-slideshow
 {
     height: 128px;
 }
+
+ul.galleria-slideshow li
+{
+    position: absolute;
+}
+
 /*** END SLIDESHOW ***/
