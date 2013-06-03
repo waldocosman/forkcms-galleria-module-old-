@@ -32,7 +32,7 @@ class FrontendGalleriaWidgetGallery extends FrontendBaseWidget
 
 		//--Add javascript
 		$this->header->addJS('/frontend/modules/' . $this->getModule() . '/js/jquery.colorbox-min.js');
-		$this->header->addJS('/frontend/modules/' . $this->getModule() . '/js/jquery.cycle.all.js');
+		$this->header->addJS('/frontend/modules/' . $this->getModule() . '/js/jquery.cycle.all.js', false);
 
 		$this->loadTemplate();
 		$this->loadData();
