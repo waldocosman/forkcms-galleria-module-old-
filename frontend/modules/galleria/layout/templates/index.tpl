@@ -1,31 +1,14 @@
-{$items|dump}
-
-{option:!items}
-	<div id="galleriaIndex">
-		<section class="mod">
-			<div class="inner">
-				<div class="bd content">
-					<p>{$msgNoItems}</p>
-				</div>
-			</div>
-		</section>
-	</div>
-{/option:!items}
-
 {option:items}
-	<div id="galleriaIndex">
-		{iteration:items}
-			<article class="mod">
-				<div class="inner">
-					<header class="hd">
-						<h3><a href="{$items.full_url}" title="{$items.title}">{$items.title}</a></h3>
-					</header>
-					<div class="bd content">
-						{$items.text}
-					</div>
-				</div>
-			</article>
-		{/iteration:items}
-	</div>
-	{include:core/layout/templates/pagination.tpl}
+    <ul class="unstlyed">
+        {iteration:items}
+            <li>
+                <h3><a href="{$items.full_url}" title="{$items.title}">{$items.title}</a></h3>
+                {option:items.image}
+                    <a href="{$items.full_url}" title="{$items.title}">
+                        <img src="{$items.image.image_128x128}" alt="{$items.title}" title="{$items.title}"/>
+                    </a>
+                {/option:items.image}
+            </li>
+        {/iteration:items}
+    </ul>
 {/option:items}

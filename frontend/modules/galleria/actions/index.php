@@ -37,7 +37,7 @@ class FrontendGalleriaIndex extends FrontendBaseBlock
 	 */
 	protected function loadData()
 	{
-		$this->record = false;
+		$this->record = FrontendGalleriaModel::getAlbumsForOverview();
 	}
 
 	/**
