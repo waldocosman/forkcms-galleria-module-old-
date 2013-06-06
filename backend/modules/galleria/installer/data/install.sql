@@ -17,7 +17,7 @@ CREATE TABLE `galleria_albums` (
   `title` varchar(255) NOT NULL,
   `meta_id` int(11) NOT NULL,
   `language` varchar(5) NOT NULL,
-  `description` varchar(255),
+  `description` text,
   `publish_on` datetime NOT NULL,
   `hidden` enum('Y','N') NOT NULL DEFAULT 'N',
   `show_in_overview` enum('Y','N') NOT NULL DEFAULT 'Y',
