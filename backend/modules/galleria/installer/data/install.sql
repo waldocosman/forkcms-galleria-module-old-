@@ -20,6 +20,7 @@ CREATE TABLE `galleria_albums` (
   `description` varchar(255),
   `publish_on` datetime NOT NULL,
   `hidden` enum('Y','N') NOT NULL DEFAULT 'N',
+  `show_in_overview` enum('Y','N') NOT NULL DEFAULT 'Y',
   `sequence` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 )
