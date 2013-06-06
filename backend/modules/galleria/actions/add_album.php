@@ -66,12 +66,17 @@ class BackendGalleriaAddAlbum extends BackendBaseActionAdd
 		$rbtHiddenValues[] = array('label' => BL::lbl('Hidden', $this->URL->getModule()), 'value' => 'Y');
 		$rbtHiddenValues[] = array('label' => BL::lbl('Published'), 'value' => 'N');
 
+		// set show-in-overview values
+		$rbtShowOverviewValues[] = array('label' => BL::lbl('Yes'), 'value' => 'Y');
+		$rbtShowOverviewValues[] = array('label' => BL::lbl('No'), 'value' => 'N');
+
 		// create elements
 		$this->frm->addText('title');
 		$this->frm->getField('title')->setAttribute('class', 'title ' . $this->frm->getField('title')->getAttribute('class'));
 		$this->frm->addEditor('description');
 		$this->frm->addText('tags', null, null, 'inputText tagBox', 'inputTextError tagBox');
 		$this->frm->addRadiobutton('hidden', $rbtHiddenValues, 'N');
+		$this->frm->addRadiobutton('show_in_overview', $rbtShowOverviewValues, 'Y');
 		$this->frm->addDropdown('category', BackendGalleriaModel::getCategoriesForDropdown(),$this->id);
 		
 		// meta
@@ -122,6 +127,7 @@ class BackendGalleriaAddAlbum extends BackendBaseActionAdd
 				$album['title'] = (string) $this->frm->getField('title')->getValue();
 				$album['sequence'] = (int) BackendGalleriaModel::getMaximumAlbumSequence() + 1;
 				$album['hidden'] = (string) $this->frm->getField('hidden')->getValue();
+				$album['show_in_overview'] = (string) $this->frm->getField('show_in_overview')->getValue();
 				$album['category_id'] = (int) $this->frm->getField('category')->getValue();
 				$album['publish_on'] = BackendModel::getUTCDate();
 				$album['description'] = (string) $this->frm->getField('description')->getValue();

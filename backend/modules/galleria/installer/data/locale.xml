@@ -114,9 +114,17 @@
                 <translation language="nl"><![CDATA[kies afbeeldingen]]></translation>
                 <translation language="en"><![CDATA[choose images]]></translation>
             </item>
-            <item type="message" name="DeletedImages">
-                <translation language="nl"><![CDATA[de afbeeldingen werden verwijderd]]></translation>
-                <translation language="en"><![CDATA[the images are deleted]]></translation>
+            <item type="label" name="Yes">
+                <translation language="nl"><![CDATA[ja]]></translation>
+                <translation language="en"><![CDATA[yes]]></translation>
+            </item>
+            <item type="label" name="No">
+                <translation language="nl"><![CDATA[nee]]></translation>
+                <translation language="en"><![CDATA[no]]></translation>
+            </item>
+            <item type="label" name="ShowInOverview">
+                <translation language="nl"><![CDATA[toon in overzicht]]></translation>
+                <translation language="en"><![CDATA[show in overview]]></translation>
             </item>
 		</galleria>
 		<core>

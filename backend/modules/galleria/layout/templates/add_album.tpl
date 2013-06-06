@@ -59,6 +59,21 @@
 										</ul>
 									</div>
 								</div>
+                                <div id="publishOptions" class="box">
+                                    <div class="heading">
+                                        <h3>{$lblShowInOverview|ucfirst}</h3>
+                                    </div>
+                                    <div class="options">
+                                        <ul class="inputList">
+                                            {iteration:show_in_overview}
+                                                <li>
+                                                    {$show_in_overview.rbtShowInOverview}
+                                                    <label for="{$show_in_overview.id}">{$show_in_overview.label}</label>
+                                                </li>
+                                            {/iteration:show_in_overview}
+                                        </ul>
+                                    </div>
+                                </div>
 								<div id="publishOptions" class="box">
 									<div class="heading">
 										<h3>{$lblTags|ucfirst}</h3>

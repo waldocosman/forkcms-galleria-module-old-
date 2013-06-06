@@ -91,12 +91,17 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 		$rbtHiddenValues[] = array('label' => BL::lbl('Hidden'), 'value' => 'Y');
 		$rbtHiddenValues[] = array('label' => BL::lbl('Published'), 'value' => 'N');
 
+		// set show-in-overview values
+		$rbtShowOverviewValues[] = array('label' => BL::lbl('Yes'), 'value' => 'Y');
+		$rbtShowOverviewValues[] = array('label' => BL::lbl('No'), 'value' => 'N');
+
 		// create elements
 		$this->frm->addText('title', $this->record['title']);
 		$this->frm->getField('title')->setAttribute('class', 'title ' . $this->frm->getField('title')->getAttribute('class'));
 		$this->frm->addEditor('description', $this->record['description']);
 		$this->frm->addText('tags', BackendTagsModel::getTags($this->URL->getModule(), $this->id), null, 'inputText tagBox', 'inputTextError tagBox');
 		$this->frm->addRadiobutton('hidden', $rbtHiddenValues, $this->record['hidden']);
+		$this->frm->addRadiobutton('show_in_overview', $rbtShowOverviewValues, $this->record['show_in_overview']);
 		$this->frm->addDropdown('category', BackendGalleriaModel::getCategoriesForDropdown(), $this->record['category_id']);
 
 		// meta object
@@ -205,6 +210,7 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 				$album['meta_id'] = $this->meta->save();
 				$album['language'] = (string) BL::getWorkingLanguage();
 				$album['hidden'] = (string) $this->frm->getField('hidden')->getValue();
+				$album['show_in_overview'] = (string) $this->frm->getField('show_in_overview')->getValue();
 
 				// ... then, update the album
 				BackendGalleriaModel::updateAlbum($album);
