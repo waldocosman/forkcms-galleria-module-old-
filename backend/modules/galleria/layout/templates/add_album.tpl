@@ -5,6 +5,13 @@
 	<h2>{$lblGalleria|ucfirst}: {$lblAddAlbum}</h2>
 </div>
 {form:add_album}
+    <div id="pageUrl">
+        <div class="oneLiner">
+            {option:detailURL}<p><span><a href="{$detailURL}">{$detailURL}/<span id="generatedUrl"></span></a></span>
+            </p>{/option:detailURL}
+            {option:!detailURL}<p class="infoMessage">{$errNoModuleLinked}</p>{/option:!detailURL}
+        </div>
+    </div>
 		<div class="ui-tabs">
 			<div class="ui-tabs-panel">
 				<div class="options">

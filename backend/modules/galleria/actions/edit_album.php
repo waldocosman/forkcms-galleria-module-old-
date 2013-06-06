@@ -169,6 +169,11 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 
 		// can the category be deleted?
 		if(BackendGalleriaModel::deleteAlbumAllowed($this->id)) $this->tpl->assign('showDelete', true);
+
+		// get url
+		$url = BackendModel::getURLForBlock($this->URL->getModule(), 'group');
+		$url404 = BackendModel::getURL(404);
+		if($url404 != $url) $this->tpl->assign('detailURL', SITE_URL . $url);
 	}
 
 	/**
