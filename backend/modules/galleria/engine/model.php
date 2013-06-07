@@ -377,13 +377,14 @@ class BackendGalleriaModel
 	public static function updateAlbum(array $item)
 	{
 		$db = BackendModel::getContainer()->get('database');
+		if(isset($item['extra_id']))
+		{
+			// build extra
+			$extra = array('id' => $item['extra_id'], 'module' => 'galleria', 'type' => 'widget', 'label' => 'galleria', 'action' => 'widget', 'data' => serialize(array('id' => $item['id'], 'extra_label' => $item['title'], 'language' => $item['language'], 'edit_url' => BackendModel::createURLForAction('edit_album') . '&id=' . $item['id'])), 'hidden' => 'N');
 
-		// build extra
-		$extra = array('id' => $item['extra_id'], 'module' => 'galleria', 'type' => 'widget', 'label' => 'galleria', 'action' => 'widget', 'data' => serialize(array('id' => $item['id'], 'extra_label' => $item['title'], 'language' => $item['language'], 'edit_url' => BackendModel::createURLForAction('edit_album') . '&id=' . $item['id'])), 'hidden' => 'N');
-
-		// update extra
-		$db->update('modules_extras', $extra, 'id = ? ', array($item['extra_id']));
-
+			// update extra
+			$db->update('modules_extras', $extra, 'id = ? ', array($item['extra_id']));
+		}
 		// update the category
 		$update = $db->update('galleria_albums', $item, 'id = ?', array($item['id']));
 
