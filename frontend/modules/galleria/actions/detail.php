@@ -65,6 +65,8 @@ class FrontendGalleriaDetail extends FrontendBaseBlock
 	 */
 	protected function parse()
 	{
+		$this->breadcrumb->addElement($this->record['title']);
+
 		$this->tpl->assign('item', $this->record);
 	}
 }
