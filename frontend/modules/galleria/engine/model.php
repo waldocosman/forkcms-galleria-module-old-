@@ -103,6 +103,8 @@ class FrontendGalleriaModel
 			//--Create the image-links to the thumbnail folders
 			foreach($records as &$row)
 			{
+
+				$row['description'] = nl2br($row['description']);
 				foreach($folders as $folder)
 				{
 					$row['image_' . $folder['dirname']] = $folder['url'] . '/' . $row['filename'];
