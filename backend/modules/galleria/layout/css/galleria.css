@@ -19,5 +19,12 @@ ul.galleria li img
 {
     cursor: move;
 }
+ul.galleria li textarea
+{
+    width: 120px;
+    height: 70px;
+    margin-bottom: 5px;
+}
+
 
 /*** END GALLERIA ***/

@@ -137,6 +137,7 @@
                     {iteration:images}
                         <li id="image-{$images.id}">
                             <img src="{$images.image_128x128}" alt="{$images.filename}" title="{$images.filename}"/>
+                            <label for="description{$images.id}">{$lblDescription|ucfirst}</label>{$images.field_description}
                             {$images.field_delete}<label for="delete{$images.id}">{$lblDelete|ucfirst}</label>
                         </li>
                     {/iteration:images}
@@ -146,7 +147,7 @@
             </div>
             <!-- div.box -->
             <div class="buttonHolderRight">
-                <input id="deleteButton" class="inputButton button mainButton" type="submit" name="delete" value="{$lblDeleteSelectedImages|ucfirst}"/>
+                <input id="deleteButton" class="inputButton button mainButton" type="submit" name="delete" value="{$lblSave|ucfirst}"/>
             </div>
         {/form:delete_image}
     </div>

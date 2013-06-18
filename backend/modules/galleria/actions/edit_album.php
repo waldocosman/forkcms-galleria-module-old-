@@ -26,7 +26,6 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 
 	private $frmDeleteImage;
 
-
 	public function execute()
 	{
 		// get parameters
@@ -69,7 +68,7 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 	 */
 	private function getData()
 	{
-		$this->record 	= BackendGalleriaModel::getAlbumFromId($this->id);
+		$this->record = BackendGalleriaModel::getAlbumFromId($this->id);
 
 		//--Get the images
 		$this->images = BackendGalleriaModel::getImagesForAlbum($this->id);
@@ -135,8 +134,11 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 				//--Create the checkbox and add to the delete_image form
 				$chkDelete = $this->frmDeleteImage->addCheckbox("delete_" . $image["id"]);
 
+				$txtDescription = $this->frmDeleteImage->addTextarea("description_" . $image["id"], $image['description']);
+
 				//--Add the parsed data to the array
 				$image["field_delete"] = $chkDelete->parse();
+				$image["field_description"] = $txtDescription->parse();
 			}
 
 			//--Destroy the last $image (because of the reference) -- sugested by http://php.net/manual/en/control-structures.foreach.php
@@ -167,7 +169,6 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 		if($this->frmAddImage) $this->frmAddImage->parse($this->tpl);
 
 		if($this->frmDeleteImage) $this->frmDeleteImage->parse($this->tpl);
-
 
 		//--Add data to Javascript
 		$this->header->addJsData("galleria", "id", $this->id);
@@ -202,15 +203,15 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 			if($this->frm->isCorrect())
 			{
 				// first, build the album array
-				$album['id'] = (int) $this->id;
+				$album['id'] = (int)$this->id;
 				$album['extra_id'] = $this->record['extra_id'];
-				$album['title'] = (string) $this->frm->getField('title')->getValue();
-				$album['description'] = (string) $this->frm->getField('description')->getValue();
-				$album['category_id'] = (int) $this->frm->getField('category')->getValue();
+				$album['title'] = (string)$this->frm->getField('title')->getValue();
+				$album['description'] = (string)$this->frm->getField('description')->getValue();
+				$album['category_id'] = (int)$this->frm->getField('category')->getValue();
 				$album['meta_id'] = $this->meta->save();
-				$album['language'] = (string) BL::getWorkingLanguage();
-				$album['hidden'] = (string) $this->frm->getField('hidden')->getValue();
-				$album['show_in_overview'] = (string) $this->frm->getField('show_in_overview')->getValue();
+				$album['language'] = (string)BL::getWorkingLanguage();
+				$album['hidden'] = (string)$this->frm->getField('hidden')->getValue();
+				$album['show_in_overview'] = (string)$this->frm->getField('show_in_overview')->getValue();
 
 				// ... then, update the album
 				BackendGalleriaModel::updateAlbum($album);
@@ -258,11 +259,11 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 				{
 
 					//--Get the filename
-					$strFilename = BackendGalleriaModel::checkFilename(substr($filImage->getFilename(), 0, 0 - (strlen($filImage->getExtension())+1)), $filImage->getExtension());
+					$strFilename = BackendGalleriaModel::checkFilename(substr($filImage->getFilename(), 0, 0 - (strlen($filImage->getExtension()) + 1)), $filImage->getExtension());
 
 					//--Fill in the item
 					$item = array();
-					$item["album_id"] = (int) $this->id;
+					$item["album_id"] = (int)$this->id;
 					$item["user_id"] = BackendAuthentication::getUser()->getUserId();
 					$item["language"] = BL::getWorkingLanguage();
 					$item["filename"] = $strFilename;
@@ -314,15 +315,26 @@ class BackendGalleriaEditAlbum extends BackendBaseActionEdit
 				//--Loop the images
 				foreach($this->images as $row)
 				{
+					//--Update text
+					if(SpoonFilter::getPostValue("description_" . $row["id"], null, "") !== null)
+					{
+						$values = array();
+						$values["id"] = $row['id'];
+						$values["description"] = SpoonFilter::getPostValue("description_" . $row["id"], null, "");
+
+						BackendGalleriaModel::update($values);
+					}
+
 					//--Check if the delete parameter is filled in.
 					if(SpoonFilter::getPostValue("delete_" . $row["id"], null, "") == "Y")
 					{
 						//--Delete the image
 						BackendGalleriaModel::delete($row["id"]);
 					}
+
 				}
 
-				$this->redirect(BackendModel::createURLForAction('edit_album') . '&id=' . $this->id . '&report=deleted-images#tabImages');
+				$this->redirect(BackendModel::createURLForAction('edit_album') . '&id=' . $this->id . '&report=saved#tabImages');
 			}
 		}
 	}
