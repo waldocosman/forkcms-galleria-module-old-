@@ -14,7 +14,9 @@ This gallery module is at this point far from functional. Read the parts below t
 * Order images in an album easily with drag-and-drop
 * Built-in support for the tags module
 * Added uploadify for easy-upload multiple images at once.
+* Add description to the thumbnails
 
 ## Frontend
 * Slideshow: uses jQuery cycle-plugin to display a slideshow
 * Gallery: create a gallery with thumbnails.  With jQuery Colorbox, the larges images are shown.
+* Module-actions: index and detail.  On the index action, you can see the selected albums.
